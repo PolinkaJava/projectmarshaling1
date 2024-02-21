@@ -2,9 +2,10 @@ package org.example.jaxb;
 
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.example.model.Order;
 import org.example.model.Product;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -32,8 +33,12 @@ public class Main {
             order.setProducts(List.of(product1, product2));
 
             marshaller.marshal(order, new File("C:\\Users\\user\\Desktop\\xml1.xml"));
-
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(order);
+            System.out.println("JSON representation of the order: " + json);
         } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
